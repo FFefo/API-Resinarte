@@ -2,29 +2,30 @@ import con from './connections.js'
 
 export async function inserirProduto(produto) {
     const comando = `
-    insert into tb_produtos(ds_produto, qtd_produto, vl_preco, tp_categoria, img_produto)
-                     values(?, ?, ?, ?, ?);
+    insert into tb_produtos(ds_produto, qtd_produto, vl_preco, tp_categoria, img_produto, id_usuario)
+                     values(?, ?, ?, ?, ?, ?);
     `;
 
-    let resposta = await con.query(comando, [produto.descricao, produto.quantidade, produto.preco, produto.categoria, produto.imagem]);
+    let resposta = await con.query(comando, [produto.descricao, produto.quantidade, produto.preco, produto.categoria, produto.imagem, produto.idUsuario]);
     let info = resposta[0];
 
     return info.insertId;
 }
 
-export async function consultarProdutos() {
+export async function consultarProdutos(idUsuario) {
     const comando = `
         select id_produto       id,
                ds_produto       produto,
                qtd_produto      quantidade,
                vl_preco         preco,
                tp_categoria     categoria,
-               img_produto      imagem
-         from tb_produtos;
-            
+               img_produto      imagem,
+               id_usuario       usuario
+         from tb_produtos
+         where id_usuario = ?
     `;
 
-    let resposta = await con.query(comando);
+    let resposta = await con.query(comando, [idUsuario]);
     let registros = resposta[0];
 
     return registros;
@@ -37,7 +38,8 @@ export async function consultarProdutosPorID(id) {
                qtd_produto      quantidade,
                vl_preco         preco,
                tp_categoria     categoria,
-               img_produto      imagem
+               img_produto      imagem,
+               id_usuario       usuario
          from tb_produtos
          where id_produto = ?;
     `
