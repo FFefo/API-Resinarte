@@ -6,7 +6,8 @@ import adicionarRotas from './rotas.js';
 
 const servidor = express();
 servidor.use(cors());
-servidor.use(express.json());
+servidor.use(express.json({ limit: '10mb' }));
+
 
 adicionarRotas(servidor);
 
