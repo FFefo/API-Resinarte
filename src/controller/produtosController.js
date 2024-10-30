@@ -4,11 +4,9 @@ import { autenticar } from '../utils/jwt.js';
 
 const endpoints = Router();
 
-endpoints.get('/produtos/', autenticar, async (req, resp) => {
+endpoints.get('/produtos/', async (req, resp) => {
     try{
-        let idUsuario = req.user.id;
-
-        let registros = await db.consultarProdutos(idUsuario);
+        let registros = await db.consultarProdutos();
         resp.send(registros);
     }
     catch(err){
@@ -18,7 +16,7 @@ endpoints.get('/produtos/', autenticar, async (req, resp) => {
     }
 })
 
-endpoints.get('/produtos/:id', autenticar, async (req, resp) =>{
+endpoints.get('/produtos/:id', async (req, resp) =>{
     try {
         let id = req.params.id
 

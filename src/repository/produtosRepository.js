@@ -12,7 +12,7 @@ export async function inserirProduto(produto) {
     return info.insertId;
 }
 
-export async function consultarProdutos(idUsuario) {
+export async function consultarProdutos() {
     const comando = `
         select id_produto       id,
                nm_produto       nome,
@@ -23,10 +23,9 @@ export async function consultarProdutos(idUsuario) {
                img_produto      imagem,
                id_usuario       usuario
          from tb_produtos
-         where id_usuario = ?
     `;
 
-    let resposta = await con.query(comando, [idUsuario]);
+    let resposta = await con.query(comando);
     let registros = resposta[0];
 
     return registros;
@@ -47,7 +46,11 @@ export async function consultarProdutosPorID(id) {
     `
 
     let resposta = await con.query(comando, [id]);
-    let registros = resposta[0];
+    let registros = resposta[0][0];
+
+    if (registros.imagem != null) {
+        registros.imagem = registros.imagem.toString();
+    }
 
     return registros;
 }
