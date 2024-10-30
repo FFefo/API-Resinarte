@@ -68,7 +68,7 @@ export async function consultarProdutosPorCategoria(categoria) {
     `
 
     let resposta = await con.query(comando, [categoria]);
-    let registros = resposta[0][0];
+    let registros = resposta[0];
 
     if (registros.imagem != null) {
         registros.imagem = registros.imagem.toString();
