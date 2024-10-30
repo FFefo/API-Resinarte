@@ -52,6 +52,31 @@ export async function consultarProdutosPorID(id) {
     return registros;
 }
 
+
+export async function consultarProdutosPorCategoria(categoria) {
+    const comando = `
+        select id_produto       id,
+               nm_produto       produto,
+               ds_produto       descricao,
+               ds_categoria     categoria,
+               qtd_produto      quantidade,
+               vl_preco         preco,
+               img_produto      imagem,
+               id_usuario       usuario
+         from tb_produtos
+         where ds_categoria = ?;
+    `
+
+    let resposta = await con.query(comando, [categoria]);
+    let registros = resposta[0][0];
+
+    if (registros.imagem != null) {
+        registros.imagem = registros.imagem.toString();
+    }
+
+    return registros;
+}
+
 export async function alterarProduto(id, produto) {
     const comando = `
     update tb_produtos

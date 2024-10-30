@@ -31,6 +31,19 @@ endpoints.get('/produtos/:id', autenticar, async (req, resp) =>{
     }
 })
 
+endpoints.get('/produto/:categoria', autenticar, async (req, resp) =>{
+    try {
+        let categoria = req.params.categoria
+
+        let registros = await db.consultarProdutosPorCategoria(categoria);
+        resp.send(registros);
+    } catch (err) {
+        resp.status(400).send({
+            erro: err.message
+        })
+    }
+})
+
 endpoints.post('/produtos/', autenticar, async (req, resp) => {
     try{
         let produto = req.body
