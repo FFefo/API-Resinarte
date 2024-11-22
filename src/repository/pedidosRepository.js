@@ -20,7 +20,7 @@ export async function consultarPedido() {
                quantidade       quantidade,
                preco            preço,
                data_entrega     DataDeEntrega,
-               entregue         produtoEntregue
+               entregue         pedidoEntregue
          from tb_pedidos
     `;
 
